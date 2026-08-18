@@ -26,4 +26,6 @@ npm test
 npm run build
 ```
 
-Consulte [CONTEXT.md](./CONTEXT.md), [SPEC.md](./SPEC.md) e [docs/architecture.md](./docs/architecture.md).
+Consulte [CONTEXT.md](./CONTEXT.md), [SPEC.md](./SPEC.md),
+[docs/architecture.md](./docs/architecture.md) e o
+[runbook de teste real](./docs/runbook-whatsapp-to-mongo.md).
