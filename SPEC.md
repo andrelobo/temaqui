@@ -66,5 +66,6 @@ Logs JSON registram recebimento, rejeição, descarte, duplicidade, persistênci
 ## Configuração
 
 - `MONGODB_URI`
+- `MONGODB_DB_NAME`, padrão `temaqui`
 - `MUIRAKITAN_WEBHOOK_SECRET` com pelo menos 16 caracteres
 - `INGESTION_RETENTION_DAYS`, padrão 30

@@ -7,8 +7,12 @@ const globalForMongoose = globalThis as typeof globalThis & {
 
 export const connectMongo = async (): Promise<typeof mongoose> => {
   if (!globalForMongoose.mongooseConnection) {
+    const env = getEnv();
     globalForMongoose.mongooseConnection = mongoose
-      .connect(getEnv().MONGODB_URI, { maxPoolSize: 10 })
+      .connect(env.MONGODB_URI, {
+        dbName: env.MONGODB_DB_NAME,
+        maxPoolSize: 10,
+      })
       .catch((error) => {
         globalForMongoose.mongooseConnection = undefined;
         throw error;
