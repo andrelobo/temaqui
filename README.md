@@ -23,6 +23,7 @@ npm run source:add -- 120363000000000000@g.us
 ```bash
 npm run lint
 npm test
+npm run test:integration # usa o Atlas configurado em .env
 npm run build
 ```
 

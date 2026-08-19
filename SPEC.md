@@ -77,6 +77,7 @@ Logs JSON registram recebimento, rejeição, descarte, duplicidade, persistênci
 - Conexão e `ping` no MongoDB Atlas: aprovados.
 - Banco selecionado: `temaqui`.
 - Lint: aprovado.
-- Testes automatizados: 11 aprovados.
+- Testes unitários: 11 aprovados.
+- Teste de integração com Atlas: 1 aprovado, incluindo HMAC, Source ativa, persistência, retry idempotente e limpeza dos fixtures.
 - Build de produção Next.js: aprovado.
 - Teste ponta a ponta com WhatsApp e Gateway reais: pendente de URL pública, configuração do tenant e `Source` do grupo piloto.

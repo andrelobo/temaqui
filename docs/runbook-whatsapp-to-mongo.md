@@ -51,6 +51,14 @@ mongodb_connection: ok
 database: temaqui
 ```
 
+Para validar HMAC, Source, persistência, índice único, retry e limpeza de fixture contra o Atlas real:
+
+```bash
+npm run test:integration
+```
+
+O teste cria somente uma Source técnica com `externalId = 999999999999999999@g.us` e um evento com prefixo `integration-`; ambos são removidos ao final.
+
 ## 3. Autorizar o grupo
 
 No diretório do TemAqui, usando o mesmo `MONGODB_URI` da aplicação:
