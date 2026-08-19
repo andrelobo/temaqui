@@ -69,3 +69,14 @@ Logs JSON registram recebimento, rejeição, descarte, duplicidade, persistênci
 - `MONGODB_DB_NAME`, padrão `temaqui`
 - `MUIRAKITAN_WEBHOOK_SECRET` com pelo menos 16 caracteres
 - `INGESTION_RETENTION_DAYS`, padrão 30
+
+`MONGODB_DB_NAME` é passado explicitamente ao Mongoose. Isso impede que uma URI sem nome de banco grave acidentalmente no banco padrão `test`.
+
+## Estado de validação
+
+- Conexão e `ping` no MongoDB Atlas: aprovados.
+- Banco selecionado: `temaqui`.
+- Lint: aprovado.
+- Testes automatizados: 11 aprovados.
+- Build de produção Next.js: aprovado.
+- Teste ponta a ponta com WhatsApp e Gateway reais: pendente de URL pública, configuração do tenant e `Source` do grupo piloto.

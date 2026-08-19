@@ -17,9 +17,12 @@ Defina no ambiente local ou na Vercel:
 
 ```dotenv
 MONGODB_URI=mongodb+srv://...
+MONGODB_DB_NAME=temaqui
 MUIRAKITAN_WEBHOOK_SECRET=um-segredo-aleatorio-com-pelo-menos-16-caracteres
 INGESTION_RETENTION_DAYS=30
 ```
+
+O nome do banco é configurado separadamente para que uma URI sem `/temaqui` não use o banco padrão `test`.
 
 Em ambiente local:
 
@@ -30,6 +33,23 @@ npm run dev
 ```
 
 O Gateway precisa alcançar uma URL HTTPS pública. Para teste local, exponha a porta 3000 com um túnel HTTPS de sua preferência e use a URL gerada nos passos seguintes.
+
+### Segurança de rede do Atlas
+
+Uma entrada `0.0.0.0/0` na IP Access List permite conexão a partir de qualquer endereço que possua credenciais válidas. Ela pode ser usada temporariamente durante a preparação do piloto, mas deve ser removida após definir a origem de rede do deploy. Prefira IPs/CIDRs específicos ou conectividade privada quando disponível.
+
+Para validar sem exibir credenciais:
+
+```bash
+npx tsx --env-file=.env -e "import mongoose from 'mongoose'; import { connectMongo } from './src/shared/db/mongoose.ts'; void (async () => { try { await connectMongo(); await mongoose.connection.db?.admin().ping(); console.log('mongodb_connection: ok'); console.log('database: ' + mongoose.connection.name); } finally { await mongoose.disconnect(); } })();"
+```
+
+O resultado esperado é:
+
+```text
+mongodb_connection: ok
+database: temaqui
+```
 
 ## 3. Autorizar o grupo
 

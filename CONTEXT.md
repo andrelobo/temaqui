@@ -34,3 +34,9 @@ Após validação da ingestão: filtro de ruído, classificação `DEMAND | SUPP
 - Não há classificação, OCR, transcrição, análise de mídia ou histórico retroativo.
 - O conteúdo bruto tem retenção temporária configurável.
 - Cadastro de fontes é operacional via script; não há painel administrativo.
+
+## Estado atual da fundação
+
+Em 18 de agosto de 2026, a fundação técnica está implementada e validada com lint, testes automatizados e build de produção. A conexão com o MongoDB Atlas foi testada por `ping`, selecionando explicitamente o banco `temaqui`.
+
+O fluxo completo com uma mensagem de WhatsApp real ainda depende de configurar uma URL HTTPS pública do TemAqui, registrar essa URL no tenant do Gateway e autorizar o `chatId` do grupo piloto como `Source`.

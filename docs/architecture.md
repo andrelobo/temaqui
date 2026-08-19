@@ -32,7 +32,7 @@ Ingestion service
 
 ## Decisões de runtime
 
-O Route Handler declara `runtime = 'nodejs'` porque usa `node:crypto` e Mongoose. `request.text()` preserva a representação assinada antes de `JSON.parse`. A conexão Mongo é armazenada em `globalThis` para reutilização entre invocações quentes na Vercel, com pool limitado.
+O Route Handler declara `runtime = 'nodejs'` porque usa `node:crypto` e Mongoose. `request.text()` preserva a representação assinada antes de `JSON.parse`. A conexão Mongo é armazenada em `globalThis` para reutilização entre invocações quentes na Vercel, com pool limitado. O banco é selecionado explicitamente por `MONGODB_DB_NAME` (padrão `temaqui`), independentemente do database informado na URI.
 
 ## Limites e pragmatismo
 
@@ -41,3 +41,7 @@ Não há fila interna: o Gateway já oferece retry. Dependências estruturais do
 ## Diagnóstico
 
 Os logs `whatsapp_ingestion.received`, `persisted`, `duplicate` e `ignored_*` permitem confirmar recebimento e persistência e produzir contagens na plataforma de logs. Uma API administrativa não foi criada para evitar expor dados sem um modelo de autenticação administrativa definido.
+
+## Estado operacional
+
+A conexão Atlas e o `ping` administrativo foram confirmados contra o banco `temaqui`. Durante a preparação local, a IP Access List do Atlas está temporariamente aberta para `0.0.0.0/0`. Essa configuração não é apropriada como estado permanente: após definir o ambiente de deploy, deve ser substituída pelos IPs/CIDRs necessários ou por conectividade privada compatível.
