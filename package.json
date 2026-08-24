@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:integration": "node --env-file=.env ./node_modules/vitest/vitest.mjs run --config vitest.integration.config.ts",
     "test:watch": "vitest",
-    "source:add": "tsx --env-file=.env scripts/upsert-source.ts"
+    "source:add": "tsx --env-file=.env scripts/upsert-source.ts",
+    "classification:audit": "tsx --env-file=.env scripts/audit-classification.ts"
   },
   "dependencies": {
     "mongoose": "9.9.3",

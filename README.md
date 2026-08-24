@@ -18,6 +18,15 @@ Cadastre um grupo autorizado usando seu `chatId`:
 npm run source:add -- 120363000000000000@g.us
 ```
 
+Auditoria agregada e somente leitura da classificação nos eventos mais recentes:
+
+```bash
+npm run classification:audit -- 1000
+```
+
+O relatório contém apenas contagens de ruído, intenções e sinais; os corpos das
+mensagens nunca são impressos.
+
 ## Validação
 
 ```bash

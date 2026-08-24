@@ -11,6 +11,8 @@
   possível oferta ou demanda.
 - Classificador determinístico `RULES_V1` de intenção
   `DEMAND | SUPPLY | IRRELEVANT`, com sinais auditáveis em português.
+- Auditor somente leitura para medir ruído, intenções e sinais em eventos reais,
+  sem imprimir nem incorporar os corpos das mensagens ao relatório.
 
 ## Etapas posteriores
 
