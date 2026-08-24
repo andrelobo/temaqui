@@ -22,6 +22,9 @@ O endpoint lê no máximo 256 KiB, preserva o corpo cru, valida `X-Muirakitan-Si
 8. Grupo autorizado com texto: persistir e responder `200`.
 9. Evento duplicado: não duplicar e responder `200`.
 10. `fromMe` não elimina uma mensagem.
+11. Saudação, confirmação ou conteúdo apenas simbólico, quando isolados:
+    `200`, não persistido.
+12. O filtro é conservador: texto adicional preserva a mensagem para classificação.
 
 ## Contrato consumido
 

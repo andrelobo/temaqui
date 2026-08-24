@@ -125,6 +125,23 @@ describe('WhatsApp webhook handler', () => {
     expect(persist).not.toHaveBeenCalled();
   });
 
+  it('ignores unequivocal textual noise without consulting Source', async () => {
+    const response = await handler()(
+      signedRequest(envelope({ ...groupPayload, body: 'Bom dia! 👋' })),
+    );
+    expect(await response.json()).toMatchObject({ outcome: 'ignored_noise', relevant: false });
+    expect(findActiveSource).not.toHaveBeenCalled();
+    expect(persist).not.toHaveBeenCalled();
+  });
+
+  it('keeps a greeting when it also contains an economic signal', async () => {
+    const response = await handler()(
+      signedRequest(envelope({ ...groupPayload, body: 'Bom dia, estou vendendo bolo' })),
+    );
+    expect(await response.json()).toMatchObject({ outcome: 'persisted', relevant: true });
+    expect(persist).toHaveBeenCalledOnce();
+  });
+
   it('accepts an unused valid Gateway event without persistence', async () => {
     const response = await handler()(
       signedRequest(envelope({ state: 'open' }, 'connection.update')),

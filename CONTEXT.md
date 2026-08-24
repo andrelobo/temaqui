@@ -31,7 +31,8 @@ Após validação da ingestão: filtro de ruído, classificação `DEMAND | SUPP
 ## Limitações atuais
 
 - Somente mensagens de texto de grupos autorizados são armazenadas.
-- Não há classificação, OCR, transcrição, análise de mídia ou histórico retroativo.
+- Ruído textual inequívoco é descartado antes da consulta de `Source`.
+- Não há classificação de intenção, OCR, transcrição, análise de mídia ou histórico retroativo.
 - O conteúdo bruto tem retenção temporária configurável.
 - Cadastro de fontes é operacional via script; não há painel administrativo.
 

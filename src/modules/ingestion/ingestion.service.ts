@@ -1,10 +1,12 @@
 import { GatewayEnvelope, MessageUpsertPayload } from './gateway-event.schema';
+import { detectTextNoise } from '@/modules/classification/text-noise-filter';
 
 export type IngestionOutcome =
   | 'persisted'
   | 'duplicate'
   | 'ignored_private'
   | 'ignored_empty_body'
+  | 'ignored_noise'
   | 'ignored_unknown_source';
 
 export interface IngestionDependencies {
@@ -33,6 +35,7 @@ export const ingestMessageUpsert = async (
 ): Promise<IngestionOutcome> => {
   if (payload.chatType !== 'GROUP') return 'ignored_private';
   if (payload.body.trim().length === 0) return 'ignored_empty_body';
+  if (detectTextNoise(payload.body).isNoise) return 'ignored_noise';
 
   const source = await dependencies.findActiveSource(payload.chatId);
   if (!source) return 'ignored_unknown_source';
