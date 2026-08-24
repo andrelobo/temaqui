@@ -8,7 +8,8 @@ Este roteiro comprova o vertical slice sem adicionar classificação ou outro co
 - O tenant e sua API key no Gateway.
 - O `chatId` do grupo autorizado, no formato `...@g.us`.
 - Um banco MongoDB Atlas acessível pelo TemAqui.
-- Uma URL HTTPS pública do TemAqui, por exemplo uma implantação na Vercel.
+- Uma URL alcançável pelo Gateway. Em processos na mesma máquina, pode ser
+  `http://127.0.0.1:3000`; entre hosts, use HTTPS público.
 - Um segredo aleatório compartilhado somente entre Gateway e TemAqui.
 
 ## 2. Configurar o TemAqui
@@ -27,12 +28,14 @@ O nome do banco é configurado separadamente para que uma URI sem `/temaqui` nã
 Em ambiente local:
 
 ```bash
-cp .env.example .env.local
+cp .env.example .env
 npm install
 npm run dev
 ```
 
-O Gateway precisa alcançar uma URL HTTPS pública. Para teste local, exponha a porta 3000 com um túnel HTTPS de sua preferência e use a URL gerada nos passos seguintes.
+Quando Gateway e TemAqui rodam na mesma máquina sem contêiner, o Gateway alcança
+diretamente `http://127.0.0.1:3000`. Use um túnel HTTPS somente quando os processos
+não compartilham a mesma rede local.
 
 ### Segurança de rede do Atlas
 
@@ -180,3 +183,11 @@ O teste está comprovado quando há evidência de:
 - retry com o mesmo `id` sem duplicação;
 - assinatura inválida rejeitada;
 - logs sem corpo ou identidade do remetente.
+
+## Evidência local de 24/08/2026
+
+O runbook foi executado com Gateway em `localhost:3001` e TemAqui em
+`localhost:3000`. O grupo piloto foi identificado pela API de grupos do Gateway,
+cadastrado como `Source` e uma mensagem real produziu `outcome: persisted`.
+O envio outbound `Paz e Bem !` foi confirmado no WhatsApp, ficou `sent` com uma
+tentativa e seu evento de retorno `fromMe` também foi persistido.

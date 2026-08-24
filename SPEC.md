@@ -80,4 +80,7 @@ Logs JSON registram recebimento, rejeição, descarte, duplicidade, persistênci
 - Testes unitários: 11 aprovados.
 - Teste de integração com Atlas: 1 aprovado, incluindo HMAC, Source ativa, persistência, retry idempotente e limpeza dos fixtures.
 - Build de produção Next.js: aprovado.
-- Teste ponta a ponta com WhatsApp e Gateway reais: pendente de URL pública, configuração do tenant e `Source` do grupo piloto.
+- Teste ponta a ponta com WhatsApp e Gateway reais: aprovado localmente em
+  24/08/2026, incluindo HMAC, Source do grupo piloto, persistência de mensagem
+  recebida e de evento `fromMe` originado por envio outbound.
+- URL pública: ainda pendente apenas para operação fora do ambiente local.

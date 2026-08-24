@@ -1,4 +1,6 @@
-import { InferSchemaType, Model, Schema, model, models } from 'mongoose';
+import mongoose, { type InferSchemaType, type Model } from 'mongoose';
+
+const { Schema, model, models } = mongoose;
 
 export const sourceTypes = ['WHATSAPP_GROUP'] as const;
 

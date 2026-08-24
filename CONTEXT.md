@@ -37,6 +37,16 @@ Após validação da ingestão: filtro de ruído, classificação `DEMAND | SUPP
 
 ## Estado atual da fundação
 
-Em 18 de agosto de 2026, a fundação técnica está implementada e validada com lint, 11 testes unitários, um teste de integração com Atlas e build de produção. A conexão com o MongoDB Atlas foi testada por `ping`, selecionando explicitamente o banco `temaqui`. A integração automatizada comprovou HMAC, Source ativa, persistência e idempotência no banco real, removendo os fixtures ao final.
+Em 24 de agosto de 2026, a fundação técnica está implementada e validada com
+lint, 11 testes unitários, um teste de integração com Atlas e build de produção.
+A conexão com o MongoDB Atlas foi testada por `ping`, selecionando explicitamente
+o banco `temaqui`. A integração automatizada comprovou HMAC, Source ativa,
+persistência e idempotência no banco real, removendo os fixtures ao final.
 
-O fluxo completo com uma mensagem de WhatsApp real ainda depende de configurar uma URL HTTPS pública do TemAqui, registrar essa URL no tenant do Gateway e autorizar o `chatId` do grupo piloto como `Source`.
+O fluxo real também foi concluído localmente: o Gateway pareou e restaurou uma
+sessão, entregou mensagens assinadas ao TemAqui, o grupo piloto foi cadastrado por
+`chatId` e eventos textuais foram persistidos. Grupo desconhecido, chat privado e
+corpo vazio foram observados como descartes. Uma mensagem outbound enviada pelo
+Gateway retornou como `fromMe` e também foi persistida. Uma URL HTTPS pública ainda
+é necessária para repetir o fluxo fora da máquina local, não para a comprovação
+técnica já realizada.

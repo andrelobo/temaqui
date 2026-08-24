@@ -14,7 +14,7 @@ const main = async () => {
       $set: { active: true, ...(neighborhoodId ? { neighborhoodId } : {}) },
       $setOnInsert: { type: 'WHATSAPP_GROUP', externalId },
     },
-    { upsert: true, new: true },
+    { upsert: true, returnDocument: 'after' },
   ).exec();
   console.log(JSON.stringify({ id: String(source._id), externalId: source.externalId }));
 };
