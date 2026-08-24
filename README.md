@@ -12,6 +12,9 @@ npm run dev
 
 Webhook: `POST http://localhost:3000/api/internal/webhooks/whatsapp`.
 
+Painel operacional local: `http://localhost:3001/ops`. Ele é habilitado apenas
+em desenvolvimento e exibe métricas e metadados, nunca textos ou identidades.
+
 Cadastre um grupo autorizado usando seu `chatId`:
 
 ```bash
