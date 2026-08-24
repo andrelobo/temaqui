@@ -1,10 +1,12 @@
 import mongoose, { type InferSchemaType, type Model } from 'mongoose';
+import { economicIntents } from '@/modules/classification/economic-intent-classifier';
 
 const { Schema, model, models } = mongoose;
 
 export const processingStatuses = [
   'RECEIVED',
   'PENDING_CLASSIFICATION',
+  'CLASSIFIED',
   'IGNORED',
   'FAILED',
 ] as const;
@@ -18,6 +20,10 @@ const ingestionEventSchema = new Schema(
     messageType: { type: String, required: true },
     fromMe: { type: Boolean, required: true },
     body: { type: String, required: true },
+    economicIntent: { type: String, enum: economicIntents, required: true },
+    classificationMethod: { type: String, enum: ['RULES_V1'], required: true },
+    classificationSignals: { type: [String], required: true, default: [] },
+    classifiedAt: { type: Date, required: true },
     occurredAt: { type: Date, required: false },
     receivedAt: { type: Date, required: true, default: Date.now },
     processingStatus: { type: String, enum: processingStatuses, required: true },

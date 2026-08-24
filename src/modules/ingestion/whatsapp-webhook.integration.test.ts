@@ -92,7 +92,10 @@ describe('WhatsApp webhook with MongoDB Atlas', () => {
     expect(storedEvents[0]).toMatchObject({
       sessionId: 'integration-session',
       fromMe: true,
-      processingStatus: 'PENDING_CLASSIFICATION',
+      processingStatus: 'CLASSIFIED',
+      economicIntent: 'IRRELEVANT',
+      classificationMethod: 'RULES_V1',
+      classificationSignals: [],
     });
     expect(storedEvents[0]).not.toHaveProperty('senderId');
   });

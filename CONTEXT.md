@@ -26,13 +26,16 @@ O TemAqui não é inicialmente marketplace, delivery, ERP, PDV ou bot de WhatsAp
 
 ## Visão futura
 
-Após validação da ingestão: filtro de ruído, classificação `DEMAND | SUPPLY | IRRELEVANT`, sinais econômicos, agregação, busca, catálogo, páginas de comerciantes e analytics.
+Após validação da ingestão e da classificação inicial: sinais econômicos,
+agregação, busca, catálogo, páginas de comerciantes e analytics.
 
 ## Limitações atuais
 
 - Somente mensagens de texto de grupos autorizados são armazenadas.
 - Ruído textual inequívoco é descartado antes da consulta de `Source`.
-- Não há classificação de intenção, OCR, transcrição, análise de mídia ou histórico retroativo.
+- A classificação atual é uma baseline determinística `RULES_V1`; ainda não há
+  modelo estatístico ou avaliação sobre um corpus rotulado.
+- Não há OCR, transcrição, análise de mídia ou histórico retroativo.
 - O conteúdo bruto tem retenção temporária configurável.
 - Cadastro de fontes é operacional via script; não há painel administrativo.
 

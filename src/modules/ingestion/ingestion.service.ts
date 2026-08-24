@@ -1,5 +1,9 @@
 import { GatewayEnvelope, MessageUpsertPayload } from './gateway-event.schema';
 import { detectTextNoise } from '@/modules/classification/text-noise-filter';
+import {
+  classifyEconomicIntent,
+  type EconomicIntent,
+} from '@/modules/classification/economic-intent-classifier';
 
 export type IngestionOutcome =
   | 'persisted'
@@ -19,9 +23,13 @@ export interface IngestionDependencies {
     messageType: string;
     fromMe: boolean;
     body: string;
+    economicIntent: EconomicIntent;
+    classificationMethod: 'RULES_V1';
+    classificationSignals: string[];
+    classifiedAt: Date;
     occurredAt?: Date;
     receivedAt: Date;
-    processingStatus: 'PENDING_CLASSIFICATION';
+    processingStatus: 'CLASSIFIED';
     expiresAt: Date;
   }) => Promise<'created' | 'duplicate'>;
   now?: () => Date;
@@ -41,6 +49,7 @@ export const ingestMessageUpsert = async (
   if (!source) return 'ignored_unknown_source';
 
   const receivedAt = dependencies.now?.() ?? new Date();
+  const classification = classifyEconomicIntent(payload.body);
   const expiresAt = new Date(receivedAt);
   expiresAt.setUTCDate(expiresAt.getUTCDate() + dependencies.retentionDays);
   const result = await dependencies.persist({
@@ -51,9 +60,13 @@ export const ingestMessageUpsert = async (
     messageType: payload.messageType,
     fromMe: payload.fromMe,
     body: payload.body,
+    economicIntent: classification.intent,
+    classificationMethod: classification.method,
+    classificationSignals: classification.matchedSignals,
+    classifiedAt: receivedAt,
     ...(payload.timestamp !== undefined ? { occurredAt: new Date(payload.timestamp * 1000) } : {}),
     receivedAt,
-    processingStatus: 'PENDING_CLASSIFICATION',
+    processingStatus: 'CLASSIFIED',
     expiresAt,
   });
 

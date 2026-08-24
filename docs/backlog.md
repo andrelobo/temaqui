@@ -2,14 +2,15 @@
 
 ## Próxima etapa
 
-1. Classificador de intenção `DEMAND | SUPPLY | IRRELEVANT`.
-2. Política de descarte antecipado do corpo após classificação.
+1. Política de descarte antecipado do corpo após classificação.
 
 ## Concluído após a fundação
 
 - Filtro conservador de ruído textual para saudações, confirmações e
   conteúdo composto apenas por símbolos, sem descartar frases que também tragam
   possível oferta ou demanda.
+- Classificador determinístico `RULES_V1` de intenção
+  `DEMAND | SUPPLY | IRRELEVANT`, com sinais auditáveis em português.
 
 ## Etapas posteriores
 

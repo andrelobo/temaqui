@@ -62,7 +62,11 @@ describe('WhatsApp webhook handler', () => {
         externalEventId: 'event-1',
         sourceId: 'source-1',
         body: groupPayload.body,
-        processingStatus: 'PENDING_CLASSIFICATION',
+        processingStatus: 'CLASSIFIED',
+        economicIntent: 'DEMAND',
+        classificationMethod: 'RULES_V1',
+        classificationSignals: expect.arrayContaining(['recommendation']),
+        classifiedAt: now,
         expiresAt: new Date('2026-09-17T12:00:00.000Z'),
       }),
     );

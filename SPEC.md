@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Comprovar o fluxo `WhatsApp → Muirakitan Gateway → webhook HMAC → TemAqui → Source → IngestionEvent → MongoDB` sem implementar classificação econômica.
+Comprovar o fluxo `WhatsApp → Muirakitan Gateway → webhook HMAC → TemAqui → Source → classificação → IngestionEvent → MongoDB`.
 
 ## Endpoint
 
@@ -25,6 +25,8 @@ O endpoint lê no máximo 256 KiB, preserva o corpo cru, valida `X-Muirakitan-Si
 11. Saudação, confirmação ou conteúdo apenas simbólico, quando isolados:
     `200`, não persistido.
 12. O filtro é conservador: texto adicional preserva a mensagem para classificação.
+13. Texto persistido recebe intenção `DEMAND | SUPPLY | IRRELEVANT` pelo
+    classificador auditável `RULES_V1`.
 
 ## Contrato consumido
 
@@ -60,7 +62,9 @@ Há unicidade em `(type, externalId)` e índice de busca em `(type, externalId, 
 
 ### IngestionEvent
 
-Persiste provider, ID externo, Source, sessão, tipo da mensagem, `fromMe`, corpo, datas, status e expiração. Há índice único `(provider, externalEventId)` e TTL em `expiresAt`.
+Persiste provider, ID externo, Source, sessão, tipo da mensagem, `fromMe`, corpo,
+intenção econômica, método, sinais e data da classificação, datas, status e expiração.
+Há índice único `(provider, externalEventId)` e TTL em `expiresAt`.
 
 ## Observabilidade
 
