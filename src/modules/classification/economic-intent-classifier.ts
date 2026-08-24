@@ -1,4 +1,4 @@
-export const economicIntents = ['DEMAND', 'SUPPLY', 'IRRELEVANT'] as const;
+export const economicIntents = ['DEMAND', 'SUPPLY', 'REPEATED_PROMOTION', 'IRRELEVANT'] as const;
 
 export type EconomicIntent = (typeof economicIntents)[number];
 
@@ -27,6 +27,9 @@ const supplyRules: IntentRule[] = [
   { signal: 'availability', pattern: /\b(temos|disponivel|pronta entrega)\b/iu },
   { signal: 'promotion', pattern: /\b(promocao|oferta|desconto)\b/iu },
   { signal: 'delivery', pattern: /\b(entrego|entregamos|delivery)\b/iu },
+  { signal: 'delivery', pattern: /\b(fazemos entrega|entrega com taxa)\b/iu },
+  { signal: 'menu', pattern: /\b(cardapio|quentinha|refeicao)\b/iu },
+  { signal: 'payment', pattern: /\b(pix|cartao|credito|debito)\b/iu },
   { signal: 'price', pattern: /(?:\br\$\s*\d|\bpor\s+\d+(?:[,.]\d{1,2})?\s*reais?\b)/iu },
 ];
 

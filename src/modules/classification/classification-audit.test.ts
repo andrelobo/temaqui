@@ -21,7 +21,7 @@ describe('createClassificationAudit', () => {
       },
       classified: {
         total: 3,
-        byIntent: { DEMAND: 1, SUPPLY: 1, IRRELEVANT: 1 },
+        byIntent: { DEMAND: 1, SUPPLY: 1, REPEATED_PROMOTION: 0, IRRELEVANT: 1 },
         bySignal: { need: 1, price: 1, selling: 1 },
       },
     });

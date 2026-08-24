@@ -96,6 +96,8 @@ describe('WhatsApp webhook with MongoDB Atlas', () => {
       economicIntent: 'IRRELEVANT',
       classificationMethod: 'RULES_V1',
       classificationSignals: [],
+      bodyRetained: true,
+      redactionTypes: [],
     });
     expect(storedEvents[0]).not.toHaveProperty('senderId');
   });

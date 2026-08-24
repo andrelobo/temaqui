@@ -40,14 +40,24 @@ const signedRequest = (data: unknown, signatureSecret = secret): Request => {
 describe('WhatsApp webhook handler', () => {
   let ingestion: IngestionDependencies;
   let findActiveSource: MockedFunction<IngestionDependencies['findActiveSource']>;
+  let findRecentPromotion: MockedFunction<IngestionDependencies['findRecentPromotion']>;
   let persist: MockedFunction<IngestionDependencies['persist']>;
 
   beforeEach(() => {
     findActiveSource = vi
       .fn<IngestionDependencies['findActiveSource']>()
       .mockResolvedValue({ id: 'source-1' });
+    findRecentPromotion = vi
+      .fn<IngestionDependencies['findRecentPromotion']>()
+      .mockResolvedValue(null);
     persist = vi.fn<IngestionDependencies['persist']>().mockResolvedValue('created');
-    ingestion = { findActiveSource, persist, retentionDays: 30, now: () => now };
+    ingestion = {
+      findActiveSource,
+      findRecentPromotion,
+      persist,
+      retentionDays: 30,
+      now: () => now,
+    };
   });
 
   const handler = () => createWhatsappWebhookHandler({ secret, ingestion });
@@ -144,6 +154,40 @@ describe('WhatsApp webhook handler', () => {
     );
     expect(await response.json()).toMatchObject({ outcome: 'persisted', relevant: true });
     expect(persist).toHaveBeenCalledOnce();
+  });
+
+  it('redacts sensitive data before persistence', async () => {
+    await handler()(
+      signedRequest(
+        envelope({
+          ...groupPayload,
+          body: 'Cardápio R$ 10. CHAVE PIX *92994444516*. Fazemos entrega.',
+        }),
+      ),
+    );
+    expect(persist).toHaveBeenCalledWith(
+      expect.objectContaining({
+        body: expect.stringContaining('[PIX_REDACTED]'),
+        redactionTypes: ['PIX'],
+        bodyRetained: true,
+      }),
+    );
+    expect(persist.mock.calls[0][0].body).not.toContain('92994444516');
+  });
+
+  it('marks a recent matching supply as repeated and discards its body', async () => {
+    findRecentPromotion.mockResolvedValue({ id: 'original-event' });
+    await handler()(
+      signedRequest(envelope({ ...groupPayload, body: 'Vendo bolo por R$ 10' })),
+    );
+    expect(persist).toHaveBeenCalledWith(
+      expect.objectContaining({
+        economicIntent: 'REPEATED_PROMOTION',
+        repeatedPromotionOf: 'original-event',
+        body: '',
+        bodyRetained: false,
+      }),
+    );
   });
 
   it('accepts an unused valid Gateway event without persistence', async () => {

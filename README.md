@@ -30,6 +30,12 @@ npm run classification:audit -- 1000
 O relatório contém apenas contagens de ruído, intenções e sinais; os corpos das
 mensagens nunca são impressos.
 
+Migração idempotente de privacidade para eventos armazenados anteriormente:
+
+```bash
+npm run privacy:migrate
+```
+
 ## Validação
 
 ```bash

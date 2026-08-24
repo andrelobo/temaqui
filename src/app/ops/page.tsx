@@ -7,6 +7,7 @@ export const dynamic = 'force-dynamic';
 const intentStyles: Record<string, string> = {
   DEMAND: 'bg-sky-100 text-sky-800',
   SUPPLY: 'bg-emerald-100 text-emerald-800',
+  REPEATED_PROMOTION: 'bg-orange-100 text-orange-800',
   IRRELEVANT: 'bg-slate-200 text-slate-700',
   LEGACY: 'bg-amber-100 text-amber-800',
 };
@@ -40,11 +41,13 @@ export default async function OperationsPage() {
           <AutoRefresh generatedAt={data.generatedAt} />
         </header>
 
-        <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Metric label="Gateway" value={data.gateway.online ? 'Online' : 'Offline'} />
           <Metric label="Eventos armazenados" value={data.totalEvents} />
           <Metric label="Últimas 5 horas" value={data.eventsLastFiveHours} />
           <Metric label="Amostra auditada" value={data.audit.sampled} />
+          <Metric label="Promoções repetidas" value={data.repeatedPromotions} />
+          <Metric label="Eventos anonimizados" value={data.redactedEvents} />
         </section>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-2">
@@ -53,6 +56,7 @@ export default async function OperationsPage() {
             <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
               <Metric label="Demandas" value={data.audit.classified.byIntent.DEMAND} />
               <Metric label="Ofertas" value={data.audit.classified.byIntent.SUPPLY} />
+              <Metric label="Repetições" value={data.repeatedPromotions} />
               <Metric label="Irrelevantes" value={data.audit.classified.byIntent.IRRELEVANT} />
               <Metric label="Ruído detectável" value={data.audit.noise.total} />
             </div>

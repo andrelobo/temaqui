@@ -22,6 +22,16 @@ export const createMongooseIngestionDependencies = (
       .exec();
     return source ? { id: String(source._id) } : null;
   },
+  findRecentPromotion: async ({ sourceId, contentFingerprint, since }) => {
+    await connectMongo();
+    const event = await IngestionEventModel.findOne({
+      sourceId,
+      contentFingerprint,
+      economicIntent: 'SUPPLY',
+      receivedAt: { $gte: since },
+    }).sort({ receivedAt: -1 }).select({ _id: 1 }).lean().exec();
+    return event ? { id: String(event._id) } : null;
+  },
   persist: async (input) => {
     await connectMongo();
     try {

@@ -17,6 +17,8 @@ export interface OperationsDashboardData {
   gateway: { online: boolean; status: string };
   totalEvents: number;
   eventsLastFiveHours: number;
+  repeatedPromotions: number;
+  redactedEvents: number;
   audit: ReturnType<typeof createClassificationAudit>;
   recentEvents: RecentEvent[];
 }
@@ -38,10 +40,20 @@ const getGatewayStatus = async (): Promise<OperationsDashboardData['gateway']> =
 export const getOperationsDashboardData = async (): Promise<OperationsDashboardData> => {
   await connectMongo();
   const fiveHoursAgo = new Date(Date.now() - 5 * 60 * 60 * 1_000);
-  const [gateway, totalEvents, eventsLastFiveHours, auditEvents, recentEvents] = await Promise.all([
+  const [
+    gateway,
+    totalEvents,
+    eventsLastFiveHours,
+    repeatedPromotions,
+    redactedEvents,
+    auditEvents,
+    recentEvents,
+  ] = await Promise.all([
     getGatewayStatus(),
     IngestionEventModel.countDocuments({}).exec(),
     IngestionEventModel.countDocuments({ receivedAt: { $gte: fiveHoursAgo } }).exec(),
+    IngestionEventModel.countDocuments({ economicIntent: 'REPEATED_PROMOTION' }).exec(),
+    IngestionEventModel.countDocuments({ 'redactionTypes.0': { $exists: true } }).exec(),
     IngestionEventModel.find({ body: { $type: 'string', $ne: '' } })
       .sort({ receivedAt: -1 })
       .limit(1_000)
@@ -68,6 +80,8 @@ export const getOperationsDashboardData = async (): Promise<OperationsDashboardD
     gateway,
     totalEvents,
     eventsLastFiveHours,
+    repeatedPromotions,
+    redactedEvents,
     audit: createClassificationAudit(auditEvents.map(({ body }) => body)),
     recentEvents: recentEvents.map((event) => ({
       id: String(event._id),

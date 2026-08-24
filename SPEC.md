@@ -27,6 +27,9 @@ O endpoint lê no máximo 256 KiB, preserva o corpo cru, valida `X-Muirakitan-Si
 12. O filtro é conservador: texto adicional preserva a mensagem para classificação.
 13. Texto persistido recebe intenção `DEMAND | SUPPLY | IRRELEVANT` pelo
     classificador auditável `RULES_V1`.
+14. Pix, CPF, telefone e e-mail detectáveis são mascarados antes do MongoDB.
+15. Ofertas com a mesma impressão digital em até sete dias são marcadas como
+    `REPEATED_PROMOTION`; seu corpo não é retido.
 
 ## Contrato consumido
 
@@ -63,7 +66,8 @@ Há unicidade em `(type, externalId)` e índice de busca em `(type, externalId, 
 ### IngestionEvent
 
 Persiste provider, ID externo, Source, sessão, tipo da mensagem, `fromMe`, corpo,
-intenção econômica, método, sinais e data da classificação, datas, status e expiração.
+intenção econômica, método, sinais, impressão digital, estado de retenção e data
+da classificação, datas, status e expiração.
 Há índice único `(provider, externalEventId)` e TTL em `expiresAt`.
 
 ## Observabilidade

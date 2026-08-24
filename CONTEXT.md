@@ -37,6 +37,8 @@ agregação, busca, catálogo, páginas de comerciantes e analytics.
   modelo estatístico ou avaliação sobre um corpus rotulado.
 - Não há OCR, transcrição, análise de mídia ou histórico retroativo.
 - O conteúdo bruto tem retenção temporária configurável.
+- Dados sensíveis detectáveis são mascarados antes da persistência e promoções
+  repetidas não retêm o corpo.
 - Cadastro de fontes é operacional via script; não há painel administrativo.
 
 ## Estado atual da fundação

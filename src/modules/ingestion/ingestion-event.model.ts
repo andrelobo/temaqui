@@ -20,6 +20,10 @@ const ingestionEventSchema = new Schema(
     messageType: { type: String, required: true },
     fromMe: { type: Boolean, required: true },
     body: { type: String, required: true },
+    bodyRetained: { type: Boolean, required: true, default: true },
+    redactionTypes: { type: [String], required: true, default: [] },
+    contentFingerprint: { type: String, required: true },
+    repeatedPromotionOf: { type: Schema.Types.ObjectId, ref: 'IngestionEvent', required: false },
     economicIntent: { type: String, enum: economicIntents, required: true },
     classificationMethod: { type: String, enum: ['RULES_V1'], required: true },
     classificationSignals: { type: [String], required: true, default: [] },
@@ -34,6 +38,7 @@ const ingestionEventSchema = new Schema(
 
 ingestionEventSchema.index({ provider: 1, externalEventId: 1 }, { unique: true });
 ingestionEventSchema.index({ receivedAt: -1 });
+ingestionEventSchema.index({ sourceId: 1, contentFingerprint: 1, receivedAt: -1 });
 ingestionEventSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export type IngestionEvent = InferSchemaType<typeof ingestionEventSchema>;

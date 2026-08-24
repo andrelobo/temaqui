@@ -13,6 +13,9 @@
   `DEMAND | SUPPLY | IRRELEVANT`, com sinais auditáveis em português.
 - Auditor somente leitura para medir ruído, intenções e sinais em eventos reais,
   sem imprimir nem incorporar os corpos das mensagens ao relatório.
+- Anonimização de Pix, CPF, telefone e e-mail antes da persistência.
+- Deduplicação de promoções por impressão digital normalizada em janela de sete
+  dias; republicações são `REPEATED_PROMOTION` e não retêm o corpo.
 
 ## Etapas posteriores
 
